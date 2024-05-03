@@ -52,6 +52,55 @@ we_easylang.DoLang(langs)
 concommand.Add("rbwepeditor_refreshlangs",function()
     we_easylang.DoLang(langs)
 end)
+local function TableInherit( t, base )
+
+	for k, v in pairs( base ) do
+
+		if ( t[ k ] == nil ) then
+			t[ k ] = v
+		elseif ( k != "BaseClass" && istable( t[ k ] ) && istable( v ) ) then
+			TableInherit( t[ k ], v )
+		end
+
+	end
+
+	t[ "BaseClass" ] = base
+
+	return t
+
+end
+function WE_Get_Wep( name, retval )
+
+	local Stored = weapons.GetStored( name )
+	if ( !Stored ) then return nil end
+
+	-- Create/copy a new table
+	local retval = retval or {}
+	for k, v in pairs( Stored ) do
+		if ( istable( v ) ) then
+			retval[ k ] = table.Copy( v )
+		else
+			retval[ k ] = v
+		end
+	end
+	retval.Base = retval.Base or "weapon_base"
+
+	-- If we're not derived from ourselves (a base weapon)
+	-- then derive from our 'Base' weapon.
+	if ( retval.Base != name ) then
+
+		local base = WE_Get_Wep( retval.Base )
+
+		if ( !base ) then
+			Msg( "ERROR: Trying to derive weapon " .. tostring( name ) .. " from non existant SWEP " .. tostring( retval.Base ) .. "!\n" )
+		else
+			retval = TableInherit( retval, base )
+		end
+
+	end
+
+	return retval
+end
 local el=we_easylang
 local getlang=el.GetLang
 local getphrase=el.GetLangPhrase
@@ -69,28 +118,29 @@ local ForceInt={
 }
 local Booleans={PA=getlang("PA"),SA=getlang("SA"),AdminOnly=getlang("AdminOnly"),Spawnable=getlang("Spawnable")}
 local BoolsVar={
-    PA=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Automatic else return false end end,
-    SA=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Automatic else return false end end,
+    PA=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Automatic or false else return false end end,
+    SA=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Automatic or false else return false end end,
     AdminOnly=function(SWEP) return SWEP.AdminOnly end,
     Spawnable=function(SWEP) return SWEP.Spawnable end
 }
 local Ints={PDamage=getlang("PDamage"),SDamage=getlang("SDamage"),PClip=getlang("PClip"),SClip=getlang("SClip")}
 local IntsVar={
-    PDamage=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Damage else return -1 end end,
-    SDamage=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Damage else return -1 end end,
-    PClip=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.ClipSize else return -1 end end,
-    SClip=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.ClipSize else return -1 end end,
+    PDamage=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Damage or -1 else return -1 end end,
+    SDamage=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Damage or -1 else return -1 end end,
+    PClip=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.ClipSize or -1 else return -1 end end,
+    SClip=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.ClipSize or -1 else return -1 end end,
 }
 local Floats={PDelay=getlang("PDelay"),SDelay=getlang("SDelay"),VMFOV="Viewmodel FOV"}
 local FloatsVar={
-    PDelay=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Delay else return -1 end end,
-    SDelay=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Delay else return -1 end end,
+    PDelay=function(SWEP) if(SWEP.Primary)then  return SWEP.Primary.Delay or -1 else return -1 end end,
+    SDelay=function(SWEP) if(SWEP.Secondary)then  return SWEP.Secondary.Delay or -1 else return -1 end end,
     VMFOV=function(SWEP) return SWEP.ViewModelFOV or -1 end
 }
 local Strings={PrintName=getlang("wepname")}
 local StringsVar={
     PrintName=function(SWEP) if((SWEP.PrintName=="" or not SWEP.PrintName) and language.GetPhrase(SWEP.ClassName) and language.GetPhrase(SWEP.ClassName)~="" and language.GetPhrase(SWEP.ClassName)~=SWEP.ClassName)then return language.GetPhrase(SWEP.ClassName) end return SWEP.PrintName or "" end
 }
+
 for i,v in pairs(Booleans)do
     BlackList[i]=true
 end
@@ -252,7 +302,7 @@ local Open=function()
                 draw.RoundedBox(0,-2,-2,w+2,h+2,Main.SelectedRow==self and Color(0,169,231) or Color(103,214,255))
             end
         end
-        row.SWEP=v
+        row.SWEP=WE_Get_Wep(v.ClassName)
         Main.Rows[v.ClassName]=row
     end
 
@@ -490,7 +540,7 @@ local Open=function()
             local json=util.TableToJSON(vars,false)
             local SWEP=LocalPlayer():GetActiveWeapon()
             if IsValid(SWEP) and net.Start("rbwepedit_request2") and SWEP:GetClass()==Main.Selected then
-                Modify(SWEP,SWEP:GetClass(),vars)
+                WE_Modify(SWEP,SWEP:GetClass(),vars)
                 net.WriteString(Main.Selected)
                 net.WriteString(json)
                 net.SendToServer()

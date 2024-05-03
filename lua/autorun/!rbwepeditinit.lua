@@ -139,9 +139,10 @@ include "lib/cl_easylang.lua"
 
 --Create a shared table.
 local WEPEDITED=sharedtable.New("RBWEPEDITOR",true)
+WE_WEPDEFAULT=sharedtable.New("RBWEDEFAULT",true)
 
 --Modify the weapon
-local Modify=function(SWEP,classname,edited)
+local WE_Modify=function(SWEP,classname,edited)
     local wepmeta=FindMetaTable("Weapon")
     if(edited.PDamage and edited.PDamage~=-1)then
         local damage=edited.PDamage
@@ -281,9 +282,38 @@ WEPEDITED:SetReceive(
                 local SWEP=weapons.GetStored(tostring(i))
                 if(SWEP)then
                     oldsweps[i]=v
-                    Modify(SWEP,i,v)  
+                    local copyed=table.Copy(v)
+                    DoLoop=function(tbl,ignore)
+                        local ignore=ignore or {}
+                        for k,e in pairs(tbl)do
+                            --print(k,e)
+                            if(istable(e) and not ignore[e])then
+                                ignore[e]=true
+                                DoLoop(e,ignore)
+                            end
+                            if(istable(k) and not ignore[k])then
+                                ignore[k]=true
+                                DoLoop(k,ignore)
+                            end
+                            if not istable(k) then
+                                if not isstring(k) and not isnumber(k) then
+                                    tbl[k]=nil
+                                end
+                            end
+                            if not istable(e) then
+                                if not isstring(e) and not isnumber(e) and not isvector(e) and not isangle(e) then
+                                    tbl[e]=nil
+                                end
+                            end
+                        end
+                    end
+                    DoLoop(copyed)
+                    --PrintTable(copyed)
+                    WE_WEPDEFAULT[i]=copyed
+                    WE_Modify(SWEP,i,v)  
                 end
             end
+            --PrintTable(WE_WEPDEFAULT)
         end)
         --PrintTable(self)
     end
