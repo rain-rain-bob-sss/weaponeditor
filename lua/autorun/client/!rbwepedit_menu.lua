@@ -15,7 +15,8 @@ local langs={
         right="右鍵可以暫時修改你手上拿著的武器,請確保你拿著的武器跟你選取的是同一把!",
         delete="刪除掉這個武器編輯數據",
         deletea="刪除所有武器編輯數據!",
-        apply="應用"
+        apply="應用",
+        NS="射出的子彈數量"
     },
     ['zh-CN']={
         PA="主攻击自动",SA="副攻击自动",
@@ -32,7 +33,8 @@ local langs={
         right="右击可以暂时修改你手上拿着的武器，请确保你拿着的武器跟你选取的是同一把！",
         delete="删除掉这个武器编辑数据",
         deletea="删除所有武器编辑数据!",
-        apply="应用"
+        apply="应用",
+        NS="射出的子彈數量"
     },
     def={
         PA="Primary automatic",SA="Secondary automatic",
@@ -45,7 +47,8 @@ local langs={
         right="Right Click to temporary edit this weapon,please make sure you're holding the same as selected weapon.",
         delete="Delete this weapon edit data.",
         deletea="Delete every weapon edit data!",
-        apply="Apply"
+        apply="Apply",
+        NS="NumShots"
     }
 }
 we_easylang.DoLang(langs)
@@ -123,12 +126,13 @@ local BoolsVar={
     AdminOnly=function(SWEP) return SWEP.AdminOnly end,
     Spawnable=function(SWEP) return SWEP.Spawnable end
 }
-local Ints={PDamage=getlang("PDamage"),SDamage=getlang("SDamage"),PClip=getlang("PClip"),SClip=getlang("SClip")}
+local Ints={PDamage=getlang("PDamage"),SDamage=getlang("SDamage"),PClip=getlang("PClip"),SClip=getlang("SClip"),NS=SClip=getlang("NS")}
 local IntsVar={
     PDamage=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Damage or -1 else return -1 end end,
     SDamage=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Damage or -1 else return -1 end end,
     PClip=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.ClipSize or -1 else return -1 end end,
     SClip=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.ClipSize or -1 else return -1 end end,
+    NS=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.NumShots or -1 else return -1 end end
 }
 local Floats={PDelay=getlang("PDelay"),SDelay=getlang("SDelay"),VMFOV="Viewmodel FOV"}
 local FloatsVar={

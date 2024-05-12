@@ -142,7 +142,7 @@ local WEPEDITED=sharedtable.New("RBWEPEDITOR",true)
 WE_WEPDEFAULT=sharedtable.New("RBWEDEFAULT",true)
 
 --Modify the weapon
-local WE_Modify=function(SWEP,classname,edited)
+WE_Modify=function(SWEP,classname,edited)
     local wepmeta=FindMetaTable("Weapon")
     if(edited.PDamage and edited.PDamage~=-1)then
         local damage=edited.PDamage
@@ -241,6 +241,16 @@ local WE_Modify=function(SWEP,classname,edited)
     if(edited.PClip and edited.PClip~=-1)then
         if(SWEP.Primary)then
             SWEP.Primary.ClipSize=edited.PClip
+        end
+    end
+    if(edited.NS and edited.NS~=-1)then
+        if(SWEP.Primary)then
+            SWEP.Primary.NumShots=edited.NS
+        end
+    end
+    if(edited.NS and edited.NS~=-1)then
+        if(SWEP.Secondary)then
+            SWEP.Secondary.NumShots=edited.NS
         end
     end
     if(edited.SClip and edited.SClip~=-1)then
@@ -359,7 +369,7 @@ if(SERVER)then
         if(IsValid(ply) and ply:IsSuperAdmin() and cn and json)then
             if(IsValid(ply:GetActiveWeapon()))then
                 local SWEP=ply:GetActiveWeapon()
-                Modify(SWEP,SWEP:GetClass(),util.JSONToTable(json) or {})
+                WE_Modify(SWEP,SWEP:GetClass(),util.JSONToTable(json) or {})
             end
         end
     end)
