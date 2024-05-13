@@ -126,7 +126,7 @@ local BoolsVar={
     AdminOnly=function(SWEP) return SWEP.AdminOnly end,
     Spawnable=function(SWEP) return SWEP.Spawnable end
 }
-local Ints={PDamage=getlang("PDamage"),SDamage=getlang("SDamage"),PClip=getlang("PClip"),SClip=getlang("SClip"),NS=SClip=getlang("NS")}
+local Ints={PDamage=getlang("PDamage"),SDamage=getlang("SDamage"),PClip=getlang("PClip"),SClip=getlang("SClip"),NS=getlang("NS")}
 local IntsVar={
     PDamage=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Damage or -1 else return -1 end end,
     SDamage=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Damage or -1 else return -1 end end,
