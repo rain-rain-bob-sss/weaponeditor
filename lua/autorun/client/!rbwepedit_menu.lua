@@ -16,7 +16,7 @@ local langs={
         delete="刪除掉這個武器編輯數據",
         deletea="刪除所有武器編輯數據!",
         apply="應用",
-        NS="射出的子彈數量"
+        --NS="射出的子彈數量"
     },
     ['zh-CN']={
         PA="主攻击自动",SA="副攻击自动",
@@ -34,7 +34,7 @@ local langs={
         delete="删除掉这个武器编辑数据",
         deletea="删除所有武器编辑数据!",
         apply="应用",
-        NS="射出的子彈數量"
+        --NS="射出的子彈數量"
     },
     ["ru"]={
         PA="Первичный автоматический",
@@ -72,7 +72,7 @@ local langs={
         delete="Delete this weapon edit data.",
         deletea="Delete every weapon edit data!",
         apply="Apply",
-        NS="NumShots"
+        --NS="NumShots"
     }
 }
 we_easylang.DoLang(langs)
@@ -150,7 +150,9 @@ local BoolsVar={
     AdminOnly=function(SWEP) return SWEP.AdminOnly end,
     Spawnable=function(SWEP) return SWEP.Spawnable end
 }
-local Ints={PDamage=getlang("PDamage"),SDamage=getlang("SDamage"),PClip=getlang("PClip"),SClip=getlang("SClip"),NS=getlang("NS")}
+local Ints={PDamage=getlang("PDamage"),SDamage=getlang("SDamage"),PClip=getlang("PClip"),SClip=getlang("SClip")
+--,NS=getlang("NS")
+}
 local IntsVar={
     PDamage=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Damage or -1 else return -1 end end,
     SDamage=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Damage or -1 else return -1 end end,
