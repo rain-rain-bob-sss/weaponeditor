@@ -10,6 +10,11 @@ local langs={
         wepeditor="武器修改器",
         openwepeditor="开启武器修改器"
     },
+    ['tr']={
+        simple_stuff="Basit",
+        wepeditor="Silah Düzenleyici",
+        openwepeditor="Silah Düzenleyici Menüsünü Aç"
+    },
     def={
         simple_stuff="Simple",
         wepeditor="Weapon Editor",
