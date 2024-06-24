@@ -60,6 +60,23 @@ local langs={
         deletea="Удалить все данные о редактировании оружия!",
         apply="Применить"
     },
+    ["tr"]={
+        PA="Birincil otomatik",SA="İkincil otomatik",
+	AdminOnly="Sadece yönetici",
+	PDamage="Birincil hasar",SDamage="İkincil hasar",
+ 	PClip="Birincil şarjör (diğer adıyla Clip1)",SClip="İkincil şarjör (diğer adıyla Clip2)",
+ 	PDelay="Birincil saldırı gecikmesi",SDelay="İkincil saldırı gecikmesi",
+	Spawnable="Oluşturulabilir",
+	wepname="Silah Adı",
+ 	notadmin="Yönetici değilsin!",
+ 	wepeditor="Silah Düzenleyici",getholding="Tutulan silahı al",invalidhold="SWEP değil\nveya kullanıcıya gönderilmedi.",give="Seçili silahı ver",
+ 	tip='Not:-1=Mevcut değeri korur\nboş=Metin girişlerinde mevcut değeri korur\nAraç ipucunu görmek için metin girişlerinin üzerine gel.\nBazı silahlar silah düzenleyicisi tarafından düzenlenemez çünkü silah kodlamasında\nsorun var.',
+ 	right="Bu silahı geçici olarak düzenlemek için sağ tıkla,lütfen seçilen silahla elindeki silahın aynı olduğundan emin ol.",
+ 	delete="Silah düzenleme verilerini sil.",
+ 	deletea="Bütün silah düzenleme verilerini sil!",
+	apply="Uygula",
+	 --NS="Atılan Mermi Sayısı"
+    },
     def={
         PA="Primary automatic",SA="Secondary automatic",
         AdminOnly="Admin only",PDamage="Primary damage",SDamage="Secondary damage",
