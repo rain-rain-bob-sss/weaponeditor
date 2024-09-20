@@ -4,8 +4,9 @@ local lang=GetConVar("gmod_language"):GetString()
 timer.Create("we_easylang_update lang",1.5,0,function()
     local langcvarstr=GetConVar("gmod_language"):GetString()
     if lang~=langcvarstr then
-        hook.Run("WE_UPDATELANG",lang,langcvarstr)
+        local olang=lang
         lang=langcvarstr
+        hook.Run("WE_UPDATELANG",olang,langcvarstr)
     end
 end)
 function DoLang(langs)
