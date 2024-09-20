@@ -1,6 +1,13 @@
 module("we_easylang",package.seeall)
 if(SERVER)then return end
 local lang=GetConVar("gmod_language"):GetString()
+timer.Create("we_easylang_update lang",1.5,0,function()
+    local langcvarstr=GetConVar("gmod_language"):GetString()
+    if lang~=langcvarstr then
+        hook.Run("WE_UPDATELANG",lang,langcvarstr)
+        lang=langcvarstr
+    end
+end)
 function DoLang(langs)
     local lan=lang
     if(not langs[lang])then
@@ -11,6 +18,10 @@ function DoLang(langs)
             for i,v in pairs(t)do
                 language.Add("rb_"..i,v)
             end
+            if lan~="def" then
+                table.Inherit(langs["def"],t)
+            end
+            break
         end
     end
 end
