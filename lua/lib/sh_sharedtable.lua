@@ -113,7 +113,11 @@ function New(name)
     if(not isstring(name))then if(tostring(name))then name=tostring(name) else we_error.Error("sh_sharedtable.lua - Couldn't convert this object to string.".." Object Type:"..type(name),true) end end
     return sharedtable:New(name)
 end
-hook.Add("PlayerInitialSpawn",id.."_SendTBL",function(ply)
+
+gameevent.Listen( "player_activate" )
+
+hook.Add( "player_activate", id.." send ply on activate", function( data ) 
+    local ply=Player(data.userid)
     if(not ply.SharedTableSended)then
         ply.SharedTableSended=true
         for i,v in pairs(shareds)do
