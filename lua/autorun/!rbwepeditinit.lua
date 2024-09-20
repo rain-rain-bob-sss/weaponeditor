@@ -258,6 +258,16 @@ WE_Modify=function(SWEP,classname,edited)
             SWEP.Secondary.ClipSize=edited.SClip
         end
     end
+    if edited.PRecoil and edited.PRecoil~=-1 then
+        if SWEP.Primary then
+            SWEP.Primary.Recoil=edited.PRecoil
+        end
+    end
+    if edited.SRecoil and edited.SRecoil~=-1 then
+        if SWEP.Secondary then
+            SWEP.Secondary.Recoil=edited.SRecoil
+        end
+    end
     if(edited.HoldType and edited.HoldType~="")then
         SWEP.OldSetHoldType=SWEP.SetHoldType
         function SWEP:SetHoldType()
