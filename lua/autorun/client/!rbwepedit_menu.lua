@@ -17,6 +17,8 @@ local langs={
         deletea="刪除所有武器編輯數據!",
         apply="應用",
         --NS="射出的子彈數量"
+	PRecoil="主後座力",
+	SRecoil="副後座力",
     },
     ['zh-CN']={
         PA="主攻击自动",SA="副攻击自动",
@@ -35,6 +37,8 @@ local langs={
         deletea="删除所有武器编辑数据!",
         apply="应用",
         --NS="射出的子彈數量"
+	PRecoil="主後座力",
+	SRecoil="副後座力",
     },
     ["ru"]={
         PA="Первичный автоматический",
@@ -89,6 +93,8 @@ local langs={
         delete="Delete this weapon edit data.",
         deletea="Delete every weapon edit data!",
         apply="Apply",
+	PRecoil="Primary Recoil",
+	SRecoil="Secondary Recoil",
         --NS="NumShots"
     }
 }
@@ -167,21 +173,23 @@ local BoolsVar={
     AdminOnly=function(SWEP) return SWEP.AdminOnly end,
     Spawnable=function(SWEP) return SWEP.Spawnable end
 }
-local Ints={PDamage=getlang("PDamage"),SDamage=getlang("SDamage"),PClip=getlang("PClip"),SClip=getlang("SClip")
+local Ints={PClip=getlang("PClip"),SClip=getlang("SClip")
 --,NS=getlang("NS")
 }
 local IntsVar={
-    PDamage=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Damage or -1 else return -1 end end,
-    SDamage=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Damage or -1 else return -1 end end,
     PClip=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.ClipSize or -1 else return -1 end end,
     SClip=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.ClipSize or -1 else return -1 end end,
     NS=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.NumShots or -1 else return -1 end end
 }
-local Floats={PDelay=getlang("PDelay"),SDelay=getlang("SDelay"),VMFOV="Viewmodel FOV"}
+local Floats={PDamage=getlang("PDamage"),SDamage=getlang("SDamage"),PDelay=getlang("PDelay"),SDelay=getlang("SDelay"),VMFOV="Viewmodel FOV",PRecoil=getlang("PRecoil"),SRecoil=getlang("SRecoil")}
 local FloatsVar={
+    PDamage=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Damage or -1 else return -1 end end,
+    SDamage=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Damage or -1 else return -1 end end,
     PDelay=function(SWEP) if(SWEP.Primary)then  return SWEP.Primary.Delay or -1 else return -1 end end,
     SDelay=function(SWEP) if(SWEP.Secondary)then  return SWEP.Secondary.Delay or -1 else return -1 end end,
-    VMFOV=function(SWEP) return SWEP.ViewModelFOV or -1 end
+    VMFOV=function(SWEP) return SWEP.ViewModelFOV or -1 end,
+    PRecoil=function(SWEP) if(SWEP.Primary)then return SWEP.Primary.Recoil or -1 else return -1 end end,
+    SRecoil=function(SWEP) if(SWEP.Secondary)then return SWEP.Secondary.Recoil or -1 else return -1 end end,
 }
 local Strings={PrintName=getlang("wepname")}
 local StringsVar={
