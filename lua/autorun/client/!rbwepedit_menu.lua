@@ -102,6 +102,11 @@ we_easylang.DoLang(langs)
 concommand.Add("rbwepeditor_refreshlangs",function()
     we_easylang.DoLang(langs)
 end)
+
+hook.Add("WE_UPDATELANG","rbwepeditor_menu update lang",function()
+	we_easylang.DoLang(langs)
+end)
+
 local function TableInherit( t, base )
 
 	for k, v in pairs( base ) do
