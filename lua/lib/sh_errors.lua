@@ -10,9 +10,6 @@ ErrorsType={
     UNDERFLOW="Number underflow."
 }
 function Error(Reason,Halt)
-    if(Halt)then
-        _G.Error("")
-    end
     if(ErrorsType[Reason])then
         Reason=ErrorsType[Reason]
     end
@@ -37,5 +34,8 @@ function Error(Reason,Halt)
                 end
             end)
         end
+    end
+    if(Halt)then
+        _G.Error("")
     end
 end
