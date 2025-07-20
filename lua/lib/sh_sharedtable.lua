@@ -47,6 +47,7 @@ else
         end
     end)
 end
+
 function sharedtable:New(name,json)
     local OBJ={}
     local t={}
@@ -65,7 +66,11 @@ function sharedtable:New(name,json)
         __newindex=function(self,k,v)
             rawset(t,k,v)
             if(main and main.OnUpdated)then
-                main:OnUpdated(t,k,v,main)
+                timer.Create(tostring(OBJ.tbl),0.5,1,function()
+                    if main then
+                        main:OnUpdated(t,k,v,main)
+                            end
+                end)
             end
         end,
         }
